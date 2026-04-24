@@ -182,6 +182,16 @@
       justify-content: center;
       font-size: 3rem;
       border: 1px solid rgba(149,213,178,0.15);
+      overflow: hidden;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s;
+    }
+    .gallery-item img:hover {
+      transform: scale(1.08);
     }
 
     /* CTA */
@@ -288,14 +298,10 @@
     <h2>Moments 📸</h2>
     <p>The lobby chronicles — proof that the best team-building doesn't happen in conference rooms.</p>
     <div class="gallery">
-      <div class="gallery-item">🛋️</div>
-      <div class="gallery-item">🌴</div>
-      <div class="gallery-item">💨</div>
-      <div class="gallery-item">🎶</div>
-      <div class="gallery-item">🤙</div>
-      <div class="gallery-item">✨</div>
+      <div class="gallery-item"><img src="photo3.jpg" alt="The crew - lobby session"></div>
+      <div class="gallery-item"><img src="photo1.jpg" alt="420 celebration"></div>
+      <div class="gallery-item"><img src="photo2.jpg" alt="Lobby vibes"></div>
     </div>
-    <p style="text-align:center; margin-top:1rem; font-size:0.9rem; opacity:0.5;">Drop your photos here — we'll fill this wall together.</p>
   </section>
 
   <div class="cta">
