@@ -352,8 +352,8 @@
 
   <section>
     <h2>The Takeover 🥃</h2>
-    <p>It started with a few of us at the hotel bar. Then a few more showed up. Then someone changed the playlist. By midnight, the bartender gave up trying to serve anyone else — the whole lobby was ours.</p>
-    <p>No name tags, no icebreakers, no corporate anything. Just the crew, the bar, some California green, and the kind of night that turns coworkers into people you'd actually call friends.</p>
+    <p>It started with a few of us posted up at the hotel bar. Then a few more wandered down. Then the whole crew materialized like it was planned — it wasn't. The lobby filled with laughter, stories getting louder, everybody in the best mood of the year.</p>
+    <p>No agenda, no formalities. Just good people feeling good, the kind of easy warmth that only happens when the work is done and the vibes are right. The bartender kept pouring, the lobby jazz kept playing, and nobody was going anywhere.</p>
   </section>
 
   <div class="divider">🍃 &mdash; 🥃 &mdash; 🍃</div>
@@ -369,7 +369,7 @@
       <div class="card">
         <div class="card-icon">🎵</div>
         <h3>The Soundtrack</h3>
-        <p>Someone always ends up with the aux. Tonight it hit different — the playlist went from chill to rowdy and nobody complained once.</p>
+        <p>Soft elevator jazz drifting through the speakers, barely audible under the roar of laughter and clinking glasses. The lobby hum is the real music.</p>
       </div>
       <div class="card">
         <div class="card-icon">🌿</div>
@@ -406,37 +406,65 @@
     <p style="margin-top:0.5rem;">21+ only. Consume responsibly. Legal in the great state of California.</p>
   </footer>
 
-  <!-- Background ambiance — hotel lobby bar vibes -->
-  <audio id="bgMusic" loop preload="auto">
-    <source src="https://cdn.pixabay.com/audio/2022/10/25/audio_32b7e8ccf1.mp3" type="audio/mpeg">
-  </audio>
+  <!-- Background ambiance — hotel lobby bar vibes (YouTube embed, hidden) -->
+  <div id="ytPlayer" style="position:fixed;top:-1000px;left:-1000px;width:1px;height:1px;overflow:hidden;pointer-events:none;"></div>
 
   <div class="music-bar">
     <div class="eq-bars paused" id="eqBars">
       <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
     </div>
-    <div class="now-playing">🎵 <span>Lobby Vibes</span> — background ambiance</div>
-    <button id="playBtn" onclick="toggleMusic()" aria-label="Play/Pause music">▶</button>
+    <div class="now-playing">🔊 <span>Lobby Bar Ambience</span> — crowd chatter &amp; lounge music</div>
+    <button id="playBtn" onclick="toggleMusic()" aria-label="Play/Pause ambience">▶</button>
+    <input type="range" id="volSlider" min="0" max="100" value="30" style="width:80px;accent-color:#f4a261;cursor:pointer;" oninput="setVol(this.value)">
   </div>
 
   <script>
-    const audio = document.getElementById('bgMusic');
+    // YouTube IFrame API for ambient bar audio
+    let player, isPlaying = false;
     const playBtn = document.getElementById('playBtn');
     const eqBars = document.getElementById('eqBars');
-    let isPlaying = false;
+
+    // Load YouTube API
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(tag);
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('ytPlayer', {
+        height: '1',
+        width: '1',
+        // Hotel lobby / bar crowd ambience — soft background chatter + lounge music
+        videoId: 'gKbIOobOMVQ',
+        playerVars: {
+          autoplay: 0,
+          loop: 1,
+          playlist: 'gKbIOobOMVQ',
+          controls: 0
+        },
+        events: {
+          onReady: function(e) {
+            e.target.setVolume(30);
+          }
+        }
+      });
+    }
 
     function toggleMusic() {
+      if (!player) return;
       if (isPlaying) {
-        audio.pause();
+        player.pauseVideo();
         playBtn.textContent = '▶';
         eqBars.classList.add('paused');
       } else {
-        audio.volume = 0.3;
-        audio.play();
+        player.playVideo();
         playBtn.textContent = '⏸';
         eqBars.classList.remove('paused');
       }
       isPlaying = !isPlaying;
+    }
+
+    function setVol(v) {
+      if (player && player.setVolume) player.setVolume(parseInt(v));
     }
   </script>
 
