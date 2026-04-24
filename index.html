@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lobby 420 — California Cannabis Crew Celebration</title>
+  <title>Lobby 420 — We Took Over the Bar</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
   <style>
@@ -11,9 +11,12 @@
       --green: #2d6a4f;
       --lime: #95d5b2;
       --gold: #f4a261;
+      --amber: #e76f51;
       --cream: #fefae0;
-      --dark: #1b1b1b;
-      --smoke: rgba(255,255,255,0.08);
+      --dark: #12100e;
+      --warm-dark: #1a1612;
+      --smoke: rgba(255,255,255,0.06);
+      --neon: #d4fc79;
     }
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
@@ -21,6 +24,70 @@
       background: var(--dark);
       color: var(--cream);
       overflow-x: hidden;
+    }
+
+    /* Background music player */
+    .music-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(18,16,14,0.95);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(244,162,97,0.2);
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .music-bar button {
+      background: none;
+      border: 2px solid var(--gold);
+      color: var(--gold);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+    .music-bar button:hover {
+      background: var(--gold);
+      color: var(--dark);
+    }
+    .music-bar .now-playing {
+      font-size: 0.85rem;
+      color: rgba(254,250,224,0.5);
+    }
+    .music-bar .now-playing span {
+      color: var(--gold);
+    }
+    .eq-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 20px;
+    }
+    .eq-bars .bar {
+      width: 3px;
+      background: var(--gold);
+      border-radius: 1px;
+      animation: eq 0.8s ease-in-out infinite alternate;
+    }
+    .eq-bars .bar:nth-child(1) { height: 8px; animation-delay: 0s; }
+    .eq-bars .bar:nth-child(2) { height: 16px; animation-delay: 0.2s; }
+    .eq-bars .bar:nth-child(3) { height: 10px; animation-delay: 0.4s; }
+    .eq-bars .bar:nth-child(4) { height: 20px; animation-delay: 0.1s; }
+    .eq-bars .bar:nth-child(5) { height: 12px; animation-delay: 0.3s; }
+    .eq-bars.paused .bar { animation-play-state: paused; }
+    @keyframes eq {
+      0% { transform: scaleY(0.3); }
+      100% { transform: scaleY(1); }
     }
 
     /* Hero */
@@ -31,28 +98,43 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 2rem;
+      padding: 2rem 2rem 4rem;
       position: relative;
-      background: linear-gradient(135deg, #1a3c2a 0%, #0d1f17 50%, #1b1b1b 100%);
+      background: linear-gradient(135deg, #1a1612 0%, #2a1f15 30%, #1a3c2a 60%, #12100e 100%);
     }
     .hero::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at 30% 40%, rgba(45,106,79,0.3) 0%, transparent 60%),
-                  radial-gradient(circle at 70% 60%, rgba(149,213,178,0.15) 0%, transparent 50%);
+      background:
+        radial-gradient(circle at 20% 50%, rgba(244,162,97,0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 30%, rgba(45,106,79,0.2) 0%, transparent 40%),
+        radial-gradient(circle at 50% 80%, rgba(231,111,81,0.1) 0%, transparent 40%);
       pointer-events: none;
     }
+
+    /* Warm ambient glow — like bar lighting */
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40%;
+      background: linear-gradient(to top, rgba(244,162,97,0.08), transparent);
+      pointer-events: none;
+    }
+
     .hero-badge {
       display: inline-block;
-      background: var(--smoke);
-      border: 1px solid rgba(149,213,178,0.3);
+      background: rgba(244,162,97,0.1);
+      border: 1px solid rgba(244,162,97,0.3);
       border-radius: 999px;
       padding: 0.5rem 1.5rem;
       font-size: 0.85rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: var(--lime);
+      color: var(--gold);
       margin-bottom: 1.5rem;
       backdrop-filter: blur(10px);
     }
@@ -72,19 +154,19 @@
     .hero-sub {
       font-size: clamp(1.1rem, 2.5vw, 1.5rem);
       color: rgba(254,250,224,0.7);
-      max-width: 600px;
+      max-width: 620px;
       margin: 1rem auto 2rem;
-      line-height: 1.5;
+      line-height: 1.6;
     }
     .hero-location {
       display: flex;
       align-items: center;
       gap: 0.5rem;
       font-size: 1rem;
-      color: var(--lime);
+      color: var(--gold);
       opacity: 0.8;
     }
-    .hero-location svg { width: 18px; height: 18px; fill: var(--lime); }
+    .hero-location svg { width: 18px; height: 18px; fill: var(--gold); }
 
     /* Smoke animation */
     .smoke-container {
@@ -99,16 +181,16 @@
       width: 200px;
       height: 200px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(149,213,178,0.08) 0%, transparent 70%);
-      animation: rise 8s infinite ease-out;
+      background: radial-gradient(circle, rgba(244,162,97,0.06) 0%, transparent 70%);
+      animation: rise 10s infinite ease-out;
     }
-    .smoke:nth-child(2) { left: 20%; animation-delay: 2s; width: 150px; height: 150px; }
+    .smoke:nth-child(2) { left: 20%; animation-delay: 2s; width: 150px; height: 150px; background: radial-gradient(circle, rgba(149,213,178,0.05) 0%, transparent 70%); }
     .smoke:nth-child(3) { left: 50%; animation-delay: 4s; width: 180px; height: 180px; }
-    .smoke:nth-child(4) { left: 75%; animation-delay: 1s; width: 120px; height: 120px; }
+    .smoke:nth-child(4) { left: 75%; animation-delay: 1s; width: 120px; height: 120px; background: radial-gradient(circle, rgba(149,213,178,0.06) 0%, transparent 70%); }
     .smoke:nth-child(5) { left: 35%; animation-delay: 6s; width: 250px; height: 250px; }
     @keyframes rise {
       0% { transform: translateY(0) scale(1); opacity: 0; }
-      20% { opacity: 1; }
+      15% { opacity: 0.8; }
       100% { transform: translateY(-120vh) scale(2.5); opacity: 0; }
     }
 
@@ -121,13 +203,13 @@
     section h2 {
       font-family: 'DM Serif Display', serif;
       font-size: clamp(2rem, 4vw, 3rem);
-      color: var(--lime);
+      color: var(--gold);
       margin-bottom: 1.5rem;
     }
     section p {
       font-size: 1.1rem;
       line-height: 1.8;
-      color: rgba(254,250,224,0.8);
+      color: rgba(254,250,224,0.75);
       margin-bottom: 1.5rem;
     }
 
@@ -139,8 +221,8 @@
       margin-top: 2rem;
     }
     .card {
-      background: rgba(45,106,79,0.15);
-      border: 1px solid rgba(149,213,178,0.2);
+      background: rgba(244,162,97,0.06);
+      border: 1px solid rgba(244,162,97,0.15);
       border-radius: 16px;
       padding: 2rem;
       backdrop-filter: blur(10px);
@@ -148,7 +230,7 @@
     }
     .card:hover {
       transform: translateY(-4px);
-      border-color: var(--lime);
+      border-color: var(--gold);
     }
     .card-icon {
       font-size: 2.5rem;
@@ -156,32 +238,32 @@
     }
     .card h3 {
       font-size: 1.25rem;
-      color: var(--gold);
+      color: var(--lime);
       margin-bottom: 0.5rem;
     }
     .card p {
       font-size: 0.95rem;
-      color: rgba(254,250,224,0.65);
+      color: rgba(254,250,224,0.6);
       margin: 0;
       line-height: 1.6;
     }
 
-    /* Gallery placeholder */
+    /* Gallery */
     .gallery {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 1rem;
       margin-top: 2rem;
     }
     .gallery-item {
       aspect-ratio: 1;
-      background: linear-gradient(135deg, rgba(45,106,79,0.3), rgba(149,213,178,0.1));
+      background: linear-gradient(135deg, rgba(244,162,97,0.15), rgba(45,106,79,0.1));
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 3rem;
-      border: 1px solid rgba(149,213,178,0.15);
+      border: 1px solid rgba(244,162,97,0.15);
       overflow: hidden;
     }
     .gallery-item img {
@@ -197,17 +279,27 @@
     /* CTA */
     .cta {
       text-align: center;
-      padding: 5rem 2rem;
-      background: linear-gradient(180deg, transparent, rgba(45,106,79,0.2));
+      padding: 5rem 2rem 7rem;
+      background: linear-gradient(180deg, transparent, rgba(244,162,97,0.08));
     }
-    .cta h2 { color: var(--cream); }
+    .cta h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--cream);
+    }
+    .cta p {
+      font-size: 1.1rem;
+      color: rgba(254,250,224,0.6);
+      margin: 1rem auto;
+      max-width: 500px;
+    }
     .btn {
       display: inline-block;
       margin-top: 1.5rem;
       padding: 1rem 2.5rem;
-      background: var(--green);
-      color: var(--cream);
-      border: 2px solid var(--lime);
+      background: transparent;
+      color: var(--gold);
+      border: 2px solid var(--gold);
       border-radius: 999px;
       font-size: 1.1rem;
       font-weight: 600;
@@ -216,25 +308,25 @@
       cursor: pointer;
     }
     .btn:hover {
-      background: var(--lime);
+      background: var(--gold);
       color: var(--dark);
     }
 
     /* Footer */
     footer {
       text-align: center;
-      padding: 2rem;
-      color: rgba(254,250,224,0.3);
+      padding: 2rem 2rem 5rem;
+      color: rgba(254,250,224,0.25);
       font-size: 0.85rem;
-      border-top: 1px solid rgba(149,213,178,0.1);
+      border-top: 1px solid rgba(244,162,97,0.1);
     }
 
-    /* Leaf divider */
+    /* Divider */
     .divider {
       text-align: center;
       font-size: 1.5rem;
       padding: 1rem;
-      opacity: 0.4;
+      opacity: 0.3;
     }
   </style>
 </head>
@@ -250,8 +342,8 @@
     </div>
     <div class="hero-badge">April 24, 2026 &bull; California</div>
     <h1><span class="four">4</span><span class="twenty">20</span></h1>
-    <h1 style="font-size: clamp(1.8rem, 4vw, 3.5rem); margin-top: 0.25rem;">Lobby Session</h1>
-    <p class="hero-sub">The big day came and went — we were too busy crushing it. Now it's time to celebrate. The crew, the lobby, California's finest. 4/20 hits different when you've earned it.</p>
+    <h1 style="font-size: clamp(1.8rem, 4vw, 3.5rem); margin-top: 0.25rem;">Lobby Bar Takeover</h1>
+    <p class="hero-sub">The big day came and went — we were too busy crushing it. So we commandeered the hotel bar, turned up the music, and made the lobby ours for the night.</p>
     <div class="hero-location">
       <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
       California
@@ -259,61 +351,94 @@
   </div>
 
   <section>
-    <h2>The Lobby Sesh 🌿</h2>
-    <p>There's something about the hotel lobby after a long day — bags dropped, name tags off, the whole crew finally in one place. Someone sparks up, someone puts on music, and suddenly it's not a work trip anymore. It's family.</p>
-    <p>This is our 420 tradition. No pretense, no agenda. Just the team, the plant, and the kind of conversations you only have when everyone's on the same level.</p>
+    <h2>The Takeover 🥃</h2>
+    <p>It started with a few of us at the hotel bar. Then a few more showed up. Then someone changed the playlist. By midnight, the bartender gave up trying to serve anyone else — the whole lobby was ours.</p>
+    <p>No name tags, no icebreakers, no corporate anything. Just the crew, the bar, some California green, and the kind of night that turns coworkers into people you'd actually call friends.</p>
   </section>
 
-  <div class="divider">🍃 &mdash; 🍃 &mdash; 🍃</div>
+  <div class="divider">🍃 &mdash; 🥃 &mdash; 🍃</div>
 
   <section>
-    <h2>The Vibe Check</h2>
+    <h2>The Scene</h2>
     <div class="cards">
       <div class="card">
-        <div class="card-icon">🏨</div>
-        <h3>The Lobby</h3>
-        <p>Where strangers become friends and coworkers become family. The couches, the dim lighting, the energy — it all starts here.</p>
+        <div class="card-icon">🍸</div>
+        <h3>The Bar</h3>
+        <p>Hotel lobby bar, fully commandeered. Drinks flowing, music bumping, strangers wondering what company throws a party this good.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎵</div>
+        <h3>The Soundtrack</h3>
+        <p>Someone always ends up with the aux. Tonight it hit different — the playlist went from chill to rowdy and nobody complained once.</p>
       </div>
       <div class="card">
         <div class="card-icon">🌿</div>
         <h3>The Green</h3>
-        <p>California's finest. Curated strains picked by the crew for the crew. From mellow indica nights to creative sativa sessions.</p>
+        <p>California's finest. The whole reason we're here. Curated strains, good company, and the kind of night that 4/20 was made for.</p>
       </div>
       <div class="card">
         <div class="card-icon">👥</div>
         <h3>The Crew</h3>
-        <p>The people who grind together, unwind together. Different departments, same wavelength. This is what culture actually looks like.</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">🌅</div>
-        <h3>The Golden State</h3>
-        <p>California — where it all started. Sun-drenched days, perfect evenings, and a culture that gets it. There's no better backdrop.</p>
+        <p>The people who grind all year so nights like this hit harder. No departments, no titles — just humans being humans.</p>
       </div>
     </div>
   </section>
 
-  <div class="divider">🍃 &mdash; 🍃 &mdash; 🍃</div>
+  <div class="divider">🍃 &mdash; 🥃 &mdash; 🍃</div>
 
   <section>
-    <h2>Moments 📸</h2>
-    <p>The lobby chronicles — proof that the best team-building doesn't happen in conference rooms.</p>
+    <h2>The Receipts 📸</h2>
+    <p>What happens in the lobby... ends up on the website.</p>
     <div class="gallery">
-      <div class="gallery-item"><img src="photo3.jpg" alt="The crew - lobby session"></div>
-      <div class="gallery-item"><img src="photo1.jpg" alt="420 celebration"></div>
+      <div class="gallery-item"><img src="photo3.jpg" alt="The crew"></div>
+      <div class="gallery-item"><img src="photo1.jpg" alt="Bar takeover"></div>
       <div class="gallery-item"><img src="photo2.jpg" alt="Lobby vibes"></div>
     </div>
   </section>
 
   <div class="cta">
-    <h2>Roll Up. Show Up. Light Up.</h2>
-    <p>The lobby's open. The crew's waiting. You know where to be.</p>
-    <a href="#" class="btn">🌿 I'm Pulling Up</a>
+    <h2>We Came. We Smoked. We Took the Bar.</h2>
+    <p>4/20 is a day. This was a lifestyle choice. See you next year — same lobby, same energy.</p>
   </div>
 
   <footer>
-    <p>Lobby 420 &bull; California &bull; Celebrating the crew, the culture, and the plant 🌿</p>
+    <p>Lobby 420 &bull; California &bull; The bar didn't stand a chance 🌿</p>
     <p style="margin-top:0.5rem;">21+ only. Consume responsibly. Legal in the great state of California.</p>
   </footer>
+
+  <!-- Background ambiance — hotel lobby bar vibes -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="https://cdn.pixabay.com/audio/2022/10/25/audio_32b7e8ccf1.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="music-bar">
+    <div class="eq-bars paused" id="eqBars">
+      <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+    </div>
+    <div class="now-playing">🎵 <span>Lobby Vibes</span> — background ambiance</div>
+    <button id="playBtn" onclick="toggleMusic()" aria-label="Play/Pause music">▶</button>
+  </div>
+
+  <script>
+    const audio = document.getElementById('bgMusic');
+    const playBtn = document.getElementById('playBtn');
+    const eqBars = document.getElementById('eqBars');
+    let isPlaying = false;
+
+    function toggleMusic() {
+      if (isPlaying) {
+        audio.pause();
+        playBtn.textContent = '▶';
+        eqBars.classList.add('paused');
+      } else {
+        audio.volume = 0.3;
+        audio.play();
+        playBtn.textContent = '⏸';
+        eqBars.classList.remove('paused');
+      }
+      isPlaying = !isPlaying;
+    }
+  </script>
 
 </body>
 </html>
